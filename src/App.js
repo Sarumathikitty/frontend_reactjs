@@ -1,58 +1,39 @@
-import React, { Component } from "react";
-// import logo from './logo.svg';
-import "./App.css";
-import { Table } from "react-bootstrap";
+import React from 'react';
 
-import "bootstrap/dist/css/bootstrap.min.css";
+import {
+  BrowserRouter,
+  Link,
+  Route,
+  Switch,
+} from 'react-router-dom';
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      error: null,
-      users: [],
-    };
-  }
+import Staff from './Staff';
+import Student from './Student';
 
-  componentDidMount() {
-    const url = "http://localhost:5000/users";
-    fetch(url)
-      .then((response) => response.json())
-      .then((result) => {
-        this.setState({
-          users: result,
-        });
-      })
-      .catch((err) => console.log(err));
-  }
+function App() {
+  return (
+    <BrowserRouter>
+      <div>
+        <nav>
+          <ul>
+            <li>
+              <Link to='/student'>Student</Link>
+            </li>
+            <li>
+              <Link to='/staff'>Staff</Link>
+            </li>
+          </ul>
+        </nav>
 
-  render() {
-    const { error, users } = this.state;
-    if (error) {
-      return <div>Error: {error}</div>;
-    } else {
-      return (
-        <div className="App">
-          <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Name</th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.map((user) => (
-                <tr key={user.id}>
-                  <td>{user.id}</td>
-                  <td>{user.name}</td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        </div>
-      );
-    }
-  }
+        <Switch>
+          <Route path='/student' component={Student} />
+
+          <Route path='/staff' component={Staff} />
+
+        </Switch>
+      </div>
+    </BrowserRouter>
+  )
 }
 
-export default App;
+export default App
